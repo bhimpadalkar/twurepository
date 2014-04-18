@@ -25,7 +25,7 @@ public class BibliotecaApp {
 
     public void start() {
         displayWelcomeMsg();
-        String [] mainMenuOptionsList =  {"List Books", "Quit"};
+        String [] mainMenuOptionsList =  {"List Books", "Check-out Book", "Return Book", "Quit"};
         AppMenu mainMenu = new AppMenu("Main",mainMenuOptionsList);
         while(true)
         {

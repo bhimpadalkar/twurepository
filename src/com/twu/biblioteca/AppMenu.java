@@ -17,6 +17,7 @@ public class AppMenu {
     }
 
     public void showOptionsAndChoose() {
+        System.out.println("\n" + this.name);
         printOptions();
         System.out.println("What you want to do ? : ");
     }
@@ -25,10 +26,6 @@ public class AppMenu {
         for(AppMenuOption option : options){
             System.out.println(option.getId() + ". " + option.getName());
         }
-    }
-
-    public void createOptions(String[] menuOptionsList) {
-
     }
 
     public AppMenuOption getOption() {
@@ -50,6 +47,8 @@ public class AppMenu {
 
     private OptionProcessor getOptionProcessor(String currentOption) {
         if(currentOption.equals("List Books")) return new ListBookOptionProcessor();
+        else if (currentOption.equals("Check-out Book")) return new CheckoutBookProcessor();
+        else if (currentOption.equals("Return Book")) return new ReturnBookProcessor();
         else if (currentOption.equals("Quit")) return new QuitOptionProcessor();
         else throw  new IllegalArgumentException("Enter Valid Option");
     }
