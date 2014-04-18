@@ -2,33 +2,37 @@ package com.twu.biblioteca;
 
 import com.twu.biblioteca.io.Console;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BibliotecaApp {
 
     private Console console;
-
-    public BibliotecaApp() {
-//        LibMenu mainMenu = new LibMenu("Main");
-//        String [] mainMenuOptionsList =  {"List Books", "Quit"};
-//        mainMenu.createOptions(mainMenuOptionsList);
-//        mainMenu.showOptions();
-//        LibMenuOption currentOption = mainMenu.getOption();
-//        mainMenu.executeOption(currentOption);
-    }
+    private Library library;
 
     public BibliotecaApp(Console console) {
-
         this.console = console;
+        String [] booksList = {"Angels & Demons", "Digital Fortress", "Da Vinchi Code"};
+        library = new Library(booksList);
+
     }
 
     public static void main(String[] args) {
         Console console = new Console(System.out);
         BibliotecaApp app = new BibliotecaApp(console);
         app.start();
-
     }
 
     public void start() {
         displayWelcomeMsg();
+        String [] mainMenuOptionsList =  {"List Books", "Quit"};
+        AppMenu mainMenu = new AppMenu("Main",mainMenuOptionsList);
+        while(true)
+        {
+            mainMenu.showOptionsAndChoose();
+            AppMenuOption currentOption = mainMenu.getOption();
+            mainMenu.executeOption(currentOption,library);
+        }
     }
 
     private void displayWelcomeMsg() {

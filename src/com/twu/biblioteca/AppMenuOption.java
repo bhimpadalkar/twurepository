@@ -1,10 +1,14 @@
 package com.twu.biblioteca;
 
-public class LibMenuOption {
+import java.util.ArrayList;
+import java.util.List;
+
+public class AppMenuOption {
     private String name;
     private int id;
+    List<AppMenuOption> options = new ArrayList<AppMenuOption>();
 
-    public LibMenuOption(String option, int id) {
+    public AppMenuOption(String option, int id) {
         this.name = option;
         this.id = id;
     }
@@ -15,9 +19,5 @@ public class LibMenuOption {
 
     public int getId() {
         return id;
-    }
-
-    public void doAction() {
-
     }
 }
