@@ -4,8 +4,9 @@ public class LibMenuOption {
     private String name;
     private int id;
 
-    public LibMenuOption(String option) {
+    public LibMenuOption(String option, int id) {
         this.name = option;
+        this.id = id;
     }
 
     public String getName() {
@@ -14,10 +15,6 @@ public class LibMenuOption {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void doAction() {

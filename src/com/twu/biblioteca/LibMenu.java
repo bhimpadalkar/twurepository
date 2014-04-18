@@ -25,8 +25,7 @@ public class LibMenu {
     public void createOptions(String[] menuOptionsList) {
         int i=1;
         for(String option: menuOptionsList){
-            LibMenuOption currentOption = new LibMenuOption(option);
-            currentOption.setId(i++);
+            LibMenuOption currentOption = new LibMenuOption(option,i++);
             this.options.add(currentOption);
         }
     }
