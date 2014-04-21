@@ -21,17 +21,17 @@ public class ConsoleTest {
     private PrintStream outputPrintStream;
     private ByteArrayOutputStream outputStream;
 
-    @Before
-    public void setup(){
-        outputStream = new ByteArrayOutputStream();
-        outputPrintStream = new PrintStream(outputStream);
-        sut = new Console(outputPrintStream);
-    }
-
-    @Test
-    public void shouldPrintAString(){
-        sut.println("Test");
-        assertEquals("Test\n", new String(outputStream.toByteArray()));
-    }
+//    @Before
+//    public void setup(){
+//        outputStream = new ByteArrayOutputStream();
+//        outputPrintStream = new PrintStream(outputStream);
+//        sut = new Console(outputPrintStream);
+//    }
+//
+//    @Test
+//    public void shouldPrintAString(){
+//        sut.println("Test");
+//        assertEquals("Test\n", new String(outputStream.toByteArray()));
+//    }
 
 }

@@ -1,9 +1,8 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.domain.Library;
 import com.twu.biblioteca.io.Console;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.twu.biblioteca.menu.Menu;
 
 public class BibliotecaApp {
 
@@ -13,29 +12,82 @@ public class BibliotecaApp {
     public BibliotecaApp(Console console) {
         this.console = console;
         String [] booksList = {"Angels & Demons", "Digital Fortress", "Da Vinchi Code"};
-        library = new Library(booksList);
+        this.library = new Library(booksList);
 
     }
 
     public static void main(String[] args) {
-        Console console = new Console(System.out);
+        Console console = new Console(System.out, System.in);
         BibliotecaApp app = new BibliotecaApp(console);
         app.start();
     }
 
     public void start() {
         displayWelcomeMsg();
-        String [] mainMenuOptionsList =  {"List Books", "Check-out Book", "Return Book", "Quit"};
-        AppMenu mainMenu = new AppMenu("Main",mainMenuOptionsList);
-        while(true)
-        {
-            mainMenu.showOptionsAndChoose();
-            AppMenuOption currentOption = mainMenu.getOption();
-            mainMenu.executeOption(currentOption,library);
+        while(true){
+            console.println("\nWhat you want to do? : ");
+            displayMenus();
+            Menu userSelectedMenu = getUserInput();
+            //console.println(userSelectedMenu.getDisplayText());
+            userSelectedMenu.action.performAction(this);
+        }
+    }
+
+    private Menu getUserInput() {
+        int userInput = Integer.parseInt(console.in());
+        return Menu.getItemFor(userInput);
+
+    }
+
+    private void displayMenus() {
+        for (Menu menu : Menu.values()) {
+            console.println(menu.getDisplayText());
         }
     }
 
     private void displayWelcomeMsg() {
         console.println("Welcome to Biblioteca !");
+    }
+
+    public void displayListOfAvailableBooks() {
+        console.println("Available books are : ");
+        for(String bookInfo : library.getListOfAvailableBooks()){
+            console.println(bookInfo);
+        }
+    }
+
+    public void checkoutBook() {
+        boolean isCheckedOut;
+        do{
+            console.println("Which book you want to checkout? : ");
+            String bookToBeCheckedOut = console.in();
+            if(!bookToBeCheckedOut.equals("-1")){
+                isCheckedOut = library.checkoutBookByName(bookToBeCheckedOut);
+                if(isCheckedOut) console.println("Thank you!! Enjoy the book");
+                else console.println("That book is not available");
+            }
+            else
+                break;
+        }while(!isCheckedOut);
+    }
+
+    public void returnBook() {
+        boolean isReturned;
+        do{
+            console.println("Which book you want to return? : ");
+            String bookToBeReturned = console.in();
+            isReturned = library.returnBookByName(bookToBeReturned);
+            if(isReturned) console.println("Thank you for returning the book");
+            else console.println("That is not a valid book to return");
+        }while(!isReturned);
+    }
+
+    public void invalidMenuAction() {
+        console.println("Choose Valid Option");
+    }
+
+    public void quit() {
+        console.println("Thank you for using Biblioteca!!");
+        System.exit(0);
     }
 }

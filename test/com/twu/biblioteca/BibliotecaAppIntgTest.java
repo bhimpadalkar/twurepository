@@ -31,22 +31,22 @@ public class BibliotecaAppIntgTest {
     private ByteArrayOutputStream outputStream;
 
 
-    @Before
-    public void setup(){
-        outputStream = new ByteArrayOutputStream();
-        outputPrintStream = new PrintStream(outputStream);
-
-        console = new Console(outputPrintStream);
-        sut = new BibliotecaApp(console);
-    }
-
-    @Test
-    public void shouldDisplayWelcomeMsgOnStart(){
-        sut = new BibliotecaApp(console);
-        sut.start();
-
-        assertEquals("Welcome to Biblioteca !\n", new String(outputStream.toByteArray()));
-
-
-    }
+//    @Before
+//    public void setup(){
+//        outputStream = new ByteArrayOutputStream();
+//        outputPrintStream = new PrintStream(outputStream);
+//
+//        console = new Console(outputPrintStream);
+//        sut = new BibliotecaApp(console);
+//    }
+//
+//    @Test
+//    public void shouldDisplayWelcomeMsgOnStart(){
+//        sut = new BibliotecaApp(console);
+//        sut.start();
+//
+//        assertEquals("Welcome to Biblioteca !\n", new String(outputStream.toByteArray()));
+//
+//
+//    }
 }
