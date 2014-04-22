@@ -27,6 +27,9 @@ public class Book implements Displayable{
     }
 
     public Book(int id, String name){
+        if (name == null){
+            throw new IllegalArgumentException("NULL titles not allowed");
+        }
         this.id = id;
         this.name = name;
     }
@@ -50,5 +53,28 @@ public class Book implements Displayable{
 
     public boolean isCheckedOut() {
         return !this.isAvailable;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if(!(o instanceof Book))
+            return false;
+
+        if(o == this)
+            return true;
+
+        Book bookToCompare = (Book) o;
+        return (bookToCompare.id == id) &&
+                (bookToCompare.name.equals(name)) &&
+                (bookToCompare.isAvailable == isAvailable);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + (isAvailable ? 1 : 0);
+        return result;
     }
 }

@@ -15,7 +15,7 @@ public class Library {
 
     public List<Book> getListOfAvailableBooks() {
         List<Book> availableBooks = new ArrayList<Book>();
-        for(Book book : this.booksList){
+        for (Book book : booksList) {
             if(book.isAvailableForCheckout()) availableBooks.add(book);
         }
         return availableBooks;

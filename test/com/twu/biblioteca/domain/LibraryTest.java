@@ -3,6 +3,9 @@ package com.twu.biblioteca.domain;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -48,4 +51,16 @@ public class LibraryTest {
     public void shouldNotReturnBookIfInvalid(){
         assertFalse(sut.returnBookByName("d"));
     }
+
+    @Test
+    public void shouldGetListOfAvailableBooks(){
+        sut.checkoutBookByName("a");
+        List<Book> expectedBooks = new ArrayList<Book>();
+        expectedBooks.add(new Book(2,"b"));
+        expectedBooks.add(new Book(3,"c"));
+        List<Book> actualBooks = sut.getListOfAvailableBooks();
+        assertEquals(expectedBooks, actualBooks);
+    }
+
+
 }
