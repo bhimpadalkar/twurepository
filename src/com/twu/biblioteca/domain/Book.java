@@ -5,7 +5,12 @@ import com.twu.biblioteca.menu.Displayable;
 public class Book implements Displayable{
     public static final Book NULL_BOOK = new Book(-1, "") {
         @Override
-        public boolean isAvailable() {
+        public boolean isAvailableForCheckout() {
+            return false;
+        }
+
+        @Override
+        public boolean isCheckedOut() {
             return false;
         }
     };
@@ -13,11 +18,11 @@ public class Book implements Displayable{
     private String name;
     private boolean isAvailable = true;
 
-    public void markAsAvailableForCheckOut(){
+    void markAsAvailableForCheckOut(){
         this.isAvailable = true;
     }
 
-    public void markAsCheckedOut(){
+    void markAsCheckedOut(){
         this.isAvailable = false;
     }
 
@@ -39,7 +44,11 @@ public class Book implements Displayable{
         return String.format("%s. %s",getId(),getName());
     }
 
-    public boolean isAvailable() {
+    public boolean isAvailableForCheckout() {
         return this.isAvailable;
+    }
+
+    public boolean isCheckedOut() {
+        return !this.isAvailable;
     }
 }

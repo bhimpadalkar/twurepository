@@ -29,7 +29,7 @@ public class Console {
         try {
             return Integer.valueOf(inputStream.readLine());
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return null;
     }
@@ -38,7 +38,7 @@ public class Console {
         try {
             return inputStream.readLine();
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return null;
     }

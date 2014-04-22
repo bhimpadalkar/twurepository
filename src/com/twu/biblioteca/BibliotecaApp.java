@@ -1,5 +1,6 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.domain.Book;
 import com.twu.biblioteca.domain.Library;
 import com.twu.biblioteca.io.Console;
 import com.twu.biblioteca.menu.Menu;
@@ -35,14 +36,14 @@ public class BibliotecaApp {
     }
 
     private Menu getUserInput() {
-        int userInput = Integer.parseInt(console.readLine());
+        Integer userInput = console.readInt();
         return Menu.getItemFor(userInput);
 
     }
 
     private void displayMenus() {
         for (Menu menu : Menu.values()) {
-            console.println(menu.getDisplayText());
+            console.println(menu);
         }
     }
 
@@ -52,8 +53,8 @@ public class BibliotecaApp {
 
     public void displayListOfAvailableBooks() {
         console.println("Available books are : ");
-        for(String bookInfo : library.getListOfAvailableBooks()){
-            console.println(bookInfo);
+        for(Book book : library.getListOfAvailableBooks()){
+            console.println(book);
         }
     }
 

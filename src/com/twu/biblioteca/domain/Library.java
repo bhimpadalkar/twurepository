@@ -13,17 +13,17 @@ public class Library {
         }
     }
 
-    public List<String> getListOfAvailableBooks() {
-        List<String> availableBooks = new ArrayList<String>();
+    public List<Book> getListOfAvailableBooks() {
+        List<Book> availableBooks = new ArrayList<Book>();
         for(Book book : this.booksList){
-            if(book.isAvailable()) availableBooks.add(book.getDisplayText());
+            if(book.isAvailableForCheckout()) availableBooks.add(book);
         }
         return availableBooks;
     }
 
     public boolean checkoutBookByName(String bookToBeCheckedOut) {
         Book book = getBookByName(bookToBeCheckedOut);
-        if(book.isAvailable()){
+        if(book.isAvailableForCheckout()){
             book.markAsCheckedOut();
             return true;
         }
@@ -33,7 +33,7 @@ public class Library {
 
     public boolean returnBookByName(String bookToBeReturned) {
         Book book = getBookByName(bookToBeReturned);
-        if(!book.isAvailable()&&book.getId()>0){
+        if(book.isCheckedOut()){
             book.markAsAvailableForCheckOut();
             return true;
         }

@@ -2,7 +2,8 @@ package com.twu.biblioteca.domain;
 
 import org.junit.Test;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
+
 
 public class BookTest {
     @Test
@@ -12,16 +13,18 @@ public class BookTest {
     }
 
     @Test
-    public void shouldBeAvailableByDefault(){
+    public void shouldBeAvailableForCheckoutByDefault(){
         Book book = new Book(1,"xyz");
-        assertTrue(book.isAvailable());
+        assertTrue(book.isAvailableForCheckout());
+        assertFalse(book.isCheckedOut());
     }
 
     @Test
     public void shouldMarkBookAsNotAvailableWhenCheckedOut(){
         Book book = new Book(1,"xyz");
         book.markAsCheckedOut();
-        assertFalse(book.isAvailable());
+        assertFalse(book.isAvailableForCheckout());
+        assertTrue(book.isCheckedOut());
     }
 
     @Test
@@ -29,6 +32,7 @@ public class BookTest {
         Book book = new Book(1,"xyz");
         book.markAsCheckedOut();
         book.markAsAvailableForCheckOut();
-        assertTrue(book.isAvailable());
+        assertTrue(book.isAvailableForCheckout());
+        assertFalse(book.isCheckedOut());
     }
 }

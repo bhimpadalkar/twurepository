@@ -36,11 +36,11 @@ public enum Menu implements Displayable{
             app.invalidMenuAction();
         }
     });
-    private int id;
+    private Integer id;
     private String title;
     private MenuAction action;
 
-    Menu(int id, String title, MenuAction action) {
+    Menu(Integer id, String title, MenuAction action) {
         this.id = id;
         this.title = title;
         this.action = action;
@@ -52,7 +52,7 @@ public enum Menu implements Displayable{
         return "";
     }
 
-    public static Menu getItemFor(int userInput) {
+    public static Menu getItemFor(Integer userInput) {
         for (Menu menu : Menu.values()) {
             if(menu.id == userInput) return menu;
         }
