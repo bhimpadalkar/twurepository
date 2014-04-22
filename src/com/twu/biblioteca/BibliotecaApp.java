@@ -4,6 +4,9 @@ import com.twu.biblioteca.domain.Library;
 import com.twu.biblioteca.io.Console;
 import com.twu.biblioteca.menu.Menu;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 public class BibliotecaApp {
 
     private Console console;
@@ -11,13 +14,12 @@ public class BibliotecaApp {
 
     public BibliotecaApp(Console console) {
         this.console = console;
-        String [] booksList = {"Angels & Demons", "Digital Fortress", "Da Vinchi Code"};
-        this.library = new Library(booksList);
+        this.library = new Library(new String[]{"Angels & Demons", "Digital Fortress", "Da Vinchi Code"});
 
     }
 
     public static void main(String[] args) {
-        Console console = new Console(System.out, System.in);
+        Console console = new Console(System.out, new BufferedReader(new InputStreamReader(System.in)));
         BibliotecaApp app = new BibliotecaApp(console);
         app.start();
     }
@@ -28,13 +30,12 @@ public class BibliotecaApp {
             console.println("\nWhat you want to do? : ");
             displayMenus();
             Menu userSelectedMenu = getUserInput();
-            //console.println(userSelectedMenu.getDisplayText());
-            userSelectedMenu.action.performAction(this);
+            userSelectedMenu.performAction(this);
         }
     }
 
     private Menu getUserInput() {
-        int userInput = Integer.parseInt(console.in());
+        int userInput = Integer.parseInt(console.readLine());
         return Menu.getItemFor(userInput);
 
     }
@@ -60,7 +61,7 @@ public class BibliotecaApp {
         boolean isCheckedOut;
         do{
             console.println("Which book you want to checkout? : ");
-            String bookToBeCheckedOut = console.in();
+            String bookToBeCheckedOut = console.readLine();
             if(!bookToBeCheckedOut.equals("-1")){
                 isCheckedOut = library.checkoutBookByName(bookToBeCheckedOut);
                 if(isCheckedOut) console.println("Thank you!! Enjoy the book");
@@ -75,7 +76,7 @@ public class BibliotecaApp {
         boolean isReturned;
         do{
             console.println("Which book you want to return? : ");
-            String bookToBeReturned = console.in();
+            String bookToBeReturned = console.readLine();
             isReturned = library.returnBookByName(bookToBeReturned);
             if(isReturned) console.println("Thank you for returning the book");
             else console.println("That is not a valid book to return");

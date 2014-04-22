@@ -1,37 +1,81 @@
 package com.twu.biblioteca.io;
 
+import com.twu.biblioteca.menu.Displayable;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertEquals;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
+import static org.mockito.Mockito.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: bhimsenp
- * Date: 18/04/14
- * Time: 12:27 PM
- * To change this template use File | Settings | File Templates.
- */
+@RunWith(MockitoJUnitRunner.class)
+
 public class ConsoleTest {
 
-    private Console sut;
-    private PrintStream outputPrintStream;
-    private ByteArrayOutputStream outputStream;
+    @Mock
+    private PrintStream outputStream;
 
-//    @Before
-//    public void setup(){
-//        outputStream = new ByteArrayOutputStream();
-//        outputPrintStream = new PrintStream(outputStream);
-//        sut = new Console(outputPrintStream);
-//    }
-//
-//    @Test
-//    public void shouldPrintAString(){
-//        sut.println("Test");
-//        assertEquals("Test\n", new String(outputStream.toByteArray()));
-//    }
+    @Mock
+    private BufferedReader inputReader;
+    private Console console;
+
+    @Before
+    public void init(){
+        console = new Console(outputStream, inputReader);
+    }
+
+    @Test
+    public void shouldPrintDisplayableItem(){
+        Displayable displayableItem = mock(Displayable.class);
+
+        when(displayableItem.getDisplayText()).thenReturn("TEST");
+
+        console.println(displayableItem);
+        verify(displayableItem).getDisplayText();
+        verify(outputStream).println("TEST");
+    }
+
+
+    @Test
+    public void shouldReturnInputLine() throws IOException {
+        when(inputReader.readLine()).thenReturn("TEST");
+        assertEquals("TEST", console.readLine());
+        verify(inputReader).readLine();
+    }
+
+    @Test
+    public void shouldReturnNullInCaseOfIOException() throws IOException {
+        when(inputReader.readLine()).thenThrow(new IOException("IO ERROR"));
+        assertNull(console.readLine());
+        verify(inputReader).readLine();
+    }
+
+    @Test
+    public void shouldReturnIntegerOnValidIntInput() throws IOException {
+        when(inputReader.readLine()).thenReturn("5");
+        assertEquals(Integer.valueOf(5), console.readInt());
+        verify(inputReader).readLine();
+    }
+
+    @Test
+    public void shouldReturnNullOnInvalidIntInput() throws IOException {
+        when(inputReader.readLine()).thenReturn("xyz");
+        assertNull(console.readInt());
+        verify(inputReader).readLine();
+    }
+
+    @Test
+    public void shouldReturnNullOnIOException() throws IOException {
+        when(inputReader.readLine()).thenThrow(new IOException("IO ERROR"));
+        assertNull(console.readInt());
+        verify(inputReader).readLine();
+    }
 
 }

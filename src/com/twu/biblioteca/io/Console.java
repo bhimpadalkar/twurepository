@@ -1,15 +1,17 @@
 package com.twu.biblioteca.io;
 
-import java.io.InputStream;
+import com.twu.biblioteca.menu.Displayable;
+
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Scanner;
 
 public class Console {
 
-    private InputStream inputStream;
+    private BufferedReader inputStream;
     private PrintStream outputPrintStream;
 
-    public Console(PrintStream outputPrintStream, InputStream inputStream) {
+    public Console(PrintStream outputPrintStream, BufferedReader inputStream) {
         //To change body of created methods use File | Settings | File Templates.
         this.outputPrintStream = outputPrintStream;
         this.inputStream = inputStream;
@@ -19,8 +21,25 @@ public class Console {
         outputPrintStream.println(str);
     }
 
-    public String in() {
-        Scanner in = new Scanner(inputStream);
-        return in.nextLine();
+    public void println(Displayable item){
+        outputPrintStream.println(item.getDisplayText());
+    }
+
+    public Integer readInt(){
+        try {
+            return Integer.valueOf(inputStream.readLine());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String readLine() {
+        try {
+            return inputStream.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

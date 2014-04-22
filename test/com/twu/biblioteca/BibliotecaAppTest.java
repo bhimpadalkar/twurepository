@@ -43,7 +43,6 @@ public class BibliotecaAppTest {
     @Test
     public void shouldAskToChooseValidOption(){
         sut.invalidMenuAction();
-        //
         verify(console).println("Choose Valid Option");
     }
 }

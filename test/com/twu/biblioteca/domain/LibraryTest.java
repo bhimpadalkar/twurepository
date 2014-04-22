@@ -18,7 +18,7 @@ public class LibraryTest {
     }
     
     @Test
-    public void shouldCheckOutBookIfAvailable(){
+    public void shouldCheckOutBookIfAvailableAndNotCheckedOut(){
         assertTrue(sut.checkoutBookByName("c"));
     }
 
@@ -28,13 +28,24 @@ public class LibraryTest {
     }
 
     @Test
-    public void shouldReturnBookIfValid(){
+    public void shouldNotCheckOutBookIfAlreadyCheckedOut(){
+        sut.checkoutBookByName("c");
+        assertFalse(sut.checkoutBookByName("c"));
+    }
+
+    @Test
+    public void shouldReturnBookIfCheckedOut(){
         sut.checkoutBookByName("c");
         assertTrue(sut.returnBookByName("c"));
     }
 
     @Test
-    public void shouldNotReturnBookIfNotValid(){
+    public void shouldNotReturnBookIfNotCheckedOut(){
         assertFalse(sut.returnBookByName("c"));
+    }
+
+    @Test
+    public void shouldNotReturnBookIfInvalid(){
+        assertFalse(sut.returnBookByName("d"));
     }
 }

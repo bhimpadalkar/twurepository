@@ -24,7 +24,7 @@ public class Library {
     public boolean checkoutBookByName(String bookToBeCheckedOut) {
         Book book = getBookByName(bookToBeCheckedOut);
         if(book.isAvailable()){
-            book.makeNonAvailable();
+            book.markAsCheckedOut();
             return true;
         }
         else
@@ -34,7 +34,7 @@ public class Library {
     public boolean returnBookByName(String bookToBeReturned) {
         Book book = getBookByName(bookToBeReturned);
         if(!book.isAvailable()&&book.getId()>0){
-            book.makeAvailable();
+            book.markAsAvailableForCheckOut();
             return true;
         }
         else

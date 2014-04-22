@@ -13,11 +13,11 @@ public class Book implements Displayable{
     private String name;
     private boolean isAvailable = true;
 
-    public void makeAvailable(){
+    public void markAsAvailableForCheckOut(){
         this.isAvailable = true;
     }
 
-    public void makeNonAvailable(){
+    public void markAsCheckedOut(){
         this.isAvailable = false;
     }
 

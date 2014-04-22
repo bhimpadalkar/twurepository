@@ -38,7 +38,7 @@ public enum Menu implements Displayable{
     });
     private int id;
     private String title;
-    public MenuAction action;
+    private MenuAction action;
 
     Menu(int id, String title, MenuAction action) {
         this.id = id;
@@ -57,5 +57,9 @@ public enum Menu implements Displayable{
             if(menu.id == userInput) return menu;
         }
         return Menu.INVALID_MENU;
+    }
+
+    public void performAction(BibliotecaApp app) {
+        this.action.performAction(app);
     }
 }
