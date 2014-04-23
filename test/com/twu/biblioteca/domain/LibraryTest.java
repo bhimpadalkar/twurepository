@@ -16,7 +16,11 @@ public class LibraryTest {
 
     @Before
     public void setup(){
-        sut = new Library(new String[] {"a","b","c"});
+        String [] booksList = new String[]{"Angels & Demons", "Digital Fortress", "Da Vinchi Code"};
+        List<String[]> moviesList = new ArrayList<String[]>();
+        moviesList.add(new String[]{"Frozen","2013","Chris Buck","8"});
+        moviesList.add(new String[]{"The Dark Knight","2008","Christopher Nolan","9"});
+        sut = new Library(booksList,moviesList);
         
     }
     
@@ -54,6 +58,16 @@ public class LibraryTest {
 
     @Test
     public void shouldGetListOfAvailableBooks(){
+        sut.checkoutBookByName("a");
+        List<Book> expectedBooks = new ArrayList<Book>();
+        expectedBooks.add(new Book(2,"b"));
+        expectedBooks.add(new Book(3,"c"));
+        List<Book> actualBooks = sut.getListOfAvailableBooks();
+        assertEquals(expectedBooks, actualBooks);
+    }
+
+    @Test
+    public void shouldGetListOfAvailableMovies(){
         sut.checkoutBookByName("a");
         List<Book> expectedBooks = new ArrayList<Book>();
         expectedBooks.add(new Book(2,"b"));

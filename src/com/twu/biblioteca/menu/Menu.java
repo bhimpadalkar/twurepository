@@ -9,21 +9,41 @@ public enum Menu implements Displayable{
               app.displayListOfAvailableBooks();
         }
     }),
-    CHECKOUT_BOOK(2,"Checkout Book", new MenuAction(){
+    LIST_MOVIES(2,"List Movies", new MenuAction() {
+        @Override
+        public void performAction(BibliotecaApp app) {
+            app.displayListOfAvailableMovies();
+        }
+    }),
+    CHECKOUT_BOOK(3,"Checkout Book", new MenuAction(){
 
         @Override
         public void performAction(BibliotecaApp app) {
             app.checkoutBook();
         }
     }),
-    RETURN_BOOK(3,"Return Book", new MenuAction(){
+    CHECKOUT_MOVIE(4,"Checkout Movie", new MenuAction(){
+
+        @Override
+        public void performAction(BibliotecaApp app) {
+            app.checkoutMovie();
+        }
+    }),
+    RETURN_BOOK(5,"Return Book", new MenuAction(){
 
         @Override
         public void performAction(BibliotecaApp app) {
             app.returnBook();
         }
     }),
-    QUIT(4,"Quit", new MenuAction(){
+    RETURN_MOVIE(6,"Return Movie", new MenuAction(){
+
+        @Override
+        public void performAction(BibliotecaApp app) {
+            app.returnMovie();
+        }
+    }),
+    QUIT(7,"Quit", new MenuAction(){
 
         @Override
         public void performAction(BibliotecaApp app) {
@@ -36,6 +56,7 @@ public enum Menu implements Displayable{
             app.invalidMenuAction();
         }
     });
+
     private Integer id;
     private String title;
     private MenuAction action;
