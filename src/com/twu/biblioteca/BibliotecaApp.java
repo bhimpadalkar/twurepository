@@ -15,18 +15,14 @@ public class BibliotecaApp {
 
     private Console console;
     private Library library;
+    private Runtime runtime;
 
-    public BibliotecaApp(Console console, Library library) {
+    public BibliotecaApp(Console console, Library library, Runtime runtime) {
         this.console = console;
         this.library = library;
+        this.runtime = runtime;
     }
 
-    public static void main(String[] args) {
-        Console console = new Console(System.out, new BufferedReader(new InputStreamReader(System.in)));
-        Library library = initLibrary();
-        BibliotecaApp app = new BibliotecaApp(console,library);
-        app.start();
-    }
 
     private static Library initLibrary() {
         String [] booksList = new String[]{"Angels & Demons", "Digital Fortress", "Da Vinchi Code"};
@@ -44,22 +40,6 @@ public class BibliotecaApp {
             Menu userSelectedMenu = getUserInput();
             userSelectedMenu.performAction(this);
         }
-    }
-
-    private Menu getUserInput() {
-        Integer userInput = console.readInt();
-        return Menu.getItemFor(userInput);
-
-    }
-
-    private void displayMenus() {
-        for (Menu menu : Menu.values()) {
-            console.println(menu);
-        }
-    }
-
-    private void displayWelcomeMsg() {
-        console.println("Welcome to Biblioteca !");
     }
 
     public void displayListOfAvailableBooks() {
@@ -87,49 +67,34 @@ public class BibliotecaApp {
     }
 
     public void checkoutMovie() {
-        boolean isCheckedOut;
-        do{
-            console.println("Which movie you want to checkout? : ");
-            String movieToBeCheckedOut = console.readLine();
-            if(!movieToBeCheckedOut.equals("-1")){
-                isCheckedOut = library.checkoutMovieByName(movieToBeCheckedOut);
-                if(isCheckedOut) console.println("Thank you!! Enjoy the movie");
-                else console.println("That movie is not available");
-            }
-            else
-                break;
-        }while(!isCheckedOut);
+        console.println("Which movie you want to checkout?");
+        String movieToBeCheckedOut = console.readLine();
+        if(movieToBeCheckedOut.equals(""))
+            return;
+        boolean isCheckedOut = library.checkoutMovieByName(movieToBeCheckedOut);
+        if(isCheckedOut) console.println("Thank you!! Enjoy the movie.");
+        else console.println("That movie is not available");
     }
 
 
     public void returnBook() {
-        boolean isReturned;
-        do{
-            console.println("Which book you want to return? : ");
-            String bookToBeReturned = console.readLine();
-            if(!bookToBeReturned.equals("-1")){
-                isReturned = library.returnBookByName(bookToBeReturned);
-                if(isReturned) console.println("Thank you for returning the book");
-                else console.println("That is not a valid book to return");
-            }
-            else
-                break;
-        }while(!isReturned);
+        console.println("Which book you want to return?");
+        String bookToBeReturned = console.readLine();
+        if(bookToBeReturned.equals(""))
+            return;
+        boolean isReturned = library.returnBookByName("a");
+        if(isReturned) console.println("Thank you for returning the book");
+        else console.println("That is not a valid book to return");
     }
 
     public void returnMovie() {
-        boolean isReturned;
-        do{
-            console.println("Which movie you want to return? : ");
-            String movieToBeReturned = console.readLine();
-            if(!movieToBeReturned.equals("-1")){
-                isReturned = library.returnMovieByName(movieToBeReturned);
-                if(isReturned) console.println("Thank you for returning the movie");
-                else console.println("That is not a valid movie to return");
-            }
-            else
-                break;
-        }while(!isReturned);
+        console.println("Which movie you want to return?");
+        String movieToBeReturned = console.readLine();
+        if(movieToBeReturned.equals(""))
+            return;
+        boolean isReturned = library.returnMovieByName(movieToBeReturned);
+        if(isReturned) console.println("Thank you for returning the book");
+        else console.println("That is not a valid movie to return");
     }
 
     public void invalidMenuAction() {
@@ -138,7 +103,29 @@ public class BibliotecaApp {
 
     public void quit() {
         console.println("Thank you for using Biblioteca!!");
-        System.exit(0);
+        runtime.exit(0);
     }
 
+    public static void main(String[] args) {
+        Console console = new Console(System.out, new BufferedReader(new InputStreamReader(System.in)));
+        Library library = initLibrary();
+        BibliotecaApp app = new BibliotecaApp(console,library, Runtime.getRuntime());
+        app.start();
+    }
+
+    private Menu getUserInput() {
+        Integer userInput = console.readInt();
+        return Menu.getItemFor(userInput);
+
+    }
+
+    private void displayMenus() {
+        for (Menu menu : Menu.values()) {
+            console.println(menu);
+        }
+    }
+
+    private void displayWelcomeMsg() {
+        console.println("Welcome to Biblioteca !");
+    }
 }

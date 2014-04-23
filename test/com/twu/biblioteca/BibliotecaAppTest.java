@@ -28,9 +28,12 @@ public class BibliotecaAppTest {
 
     private BibliotecaApp sut;
 
+    @Mock
+    private Runtime runtime;
+
     @Before
     public void setup(){
-        sut = new BibliotecaApp(console,library);
+        sut = new BibliotecaApp(console,library, runtime);
     }
 
     @Test
@@ -42,7 +45,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void shouldDisplayListOfAvailableBooks(){
+    public void shouldDisplayListOfAvailableBooksOnDisplayBooksListCommand(){
         List<Book> bookList = new ArrayList<Book>();
         Book book1 = new Book(1, "a");
         bookList.add(book1);
@@ -60,7 +63,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void shouldAllowUserToExitFromCheckoutOption(){
+    public void shouldAllowUserToExitFromCheckoutBookCommand(){
         when(console.readLine()).thenReturn("");
         sut.checkoutBook();
         verify(console).println("Which book you want to checkout?");
@@ -68,7 +71,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void shouldCheckoutBookAndReturnSuccessMessageIfSuccessful(){
+    public void shouldCheckoutBookAndReturnSuccessMessageIfSuccessfulOnCheckoutCommand(){
         when(console.readLine()).thenReturn("a");
         when(library.checkoutBookByName("a")).thenReturn(true);
         sut.checkoutBook();
@@ -78,7 +81,7 @@ public class BibliotecaAppTest {
     }
 
     @Test
-    public void shouldNotCheckoutBookAndReturnFailureMessageIfFailed(){
+    public void shouldNotCheckoutBookAndReturnFailureMessageIfFailedOnCheckoutCommand(){
         when(console.readLine()).thenReturn("c");
         when(library.checkoutBookByName("c")).thenReturn(false);
         sut.checkoutBook();
@@ -86,5 +89,104 @@ public class BibliotecaAppTest {
         verify(library).checkoutBookByName("c");
         verify(console).println("That book is not available.");
     }
+
+    @Test
+    public void shouldAllowUserToExitFromCheckoutMovieCommand(){
+        when(console.readLine()).thenReturn("");
+        sut.checkoutMovie();
+        verify(console).println("Which movie you want to checkout?");
+        verify(console).readLine();
+        verify(library,never()).checkoutMovieByName(anyString());
+    }
+
+    @Test
+    public void shouldCheckoutMovieAndReturnSuccessMessageWhenSuccessfulOnCheckoutCommand(){
+        when(console.readLine()).thenReturn("a");
+        when(library.checkoutMovieByName("a")).thenReturn(true);
+        sut.checkoutMovie();
+        verify(console).println("Which movie you want to checkout?");
+        verify(library).checkoutMovieByName("a");
+        verify(console).println("Thank you!! Enjoy the movie.");
+    }
+
+    @Test
+    public void shouldNotCheckoutMovieAndReturnFailureMessageWhenFailedOnCheckoutCommand(){
+        when(console.readLine()).thenReturn("d");
+        when(library.checkoutMovieByName("d")).thenReturn(false);
+        sut.checkoutMovie();
+        verify(console).println("Which movie you want to checkout?");
+        verify(library).checkoutMovieByName("d");
+        verify(console).println("That movie is not available");
+    }
+
+    @Test
+    public void shouldAllowToExitFromReturnBookCommand(){
+        when(console.readLine()).thenReturn("");
+        sut.returnBook();
+        verify(console).println("Which book you want to return?");
+        verify(library,never()).returnBookByName(anyString());
+    }
+
+    @Test
+    public void shouldReturnBookAndDisplaySuccessMessageOnSuccessfulReturn(){
+        when(console.readLine()).thenReturn("a");
+        when(library.returnBookByName("a")).thenReturn(true);
+        sut.returnBook();
+        verify(console).println("Which book you want to return?");
+        verify(library).returnBookByName("a");
+        verify(console).println("Thank you for returning the book");
+    }
+
+    @Test
+    public void shouldNotReturnBookAndDisplayFailureMessageWhenFailedOnReturnMenu(){
+        when(console.readLine()).thenReturn("a");
+        when(library.returnBookByName("a")).thenReturn(false);
+        sut.returnBook();
+        verify(console).println("Which book you want to return?");
+        verify(library).returnBookByName("a");
+        verify(console).println("That is not a valid book to return");
+    }
+
+    @Test
+    public void shouldAllowToExitFromReturnMovieCommand(){
+        when(console.readLine()).thenReturn("");
+        sut.returnMovie();
+        verify(console).println("Which movie you want to return?");
+        verify(library,never()).returnMovieByName(anyString());
+    }
+
+    @Test
+    public void shouldReturnMovieAndDisplaySuccessMessageIfSuccessfulOnReturnMenu(){
+        when(console.readLine()).thenReturn("a");
+        when(library.returnMovieByName("a")).thenReturn(true);
+        sut.returnMovie();
+        verify(console).println("Which movie you want to return?");
+        verify(library).returnMovieByName("a");
+        verify(console).println("Thank you for returning the movie");
+    }
+
+    @Test
+    public void shouldNotReturnMovieAndDisplayFailureMessageIfFailedOnReturnMenu(){
+        when(console.readLine()).thenReturn("a");
+        when(library.returnMovieByName("a")).thenReturn(false);
+        sut.returnMovie();
+        verify(console).println("Which movie you want to return?");
+        verify(library).returnMovieByName("a");
+        verify(console).println("That is not a valid movie to return");
+    }
+
+    @Test
+    public void shouldAskToChooseValidOptionOnChoiceOfInvalidOption(){
+        sut.invalidMenuAction();
+        verify(console).println("Choose Valid Option");
+    }
+
+    @Test
+    public void shouldExitOnQuitCommand(){
+        sut.quit();
+        verify(console).println("Thank you for using Biblioteca!!");
+        verify(runtime).exit(0);
+    }
+
 
 }
