@@ -42,8 +42,8 @@ public class LibraryTest {
 
     @Test
     public void shouldReturnBookIfCheckedOut(){
-        sut.checkoutBookByName("c");
-        assertTrue(sut.returnBookByName("c"));
+        sut.checkoutBookByName("Digital Fortress");
+        assertTrue(sut.returnBookByName("Digital Fortress"));
     }
 
     @Test

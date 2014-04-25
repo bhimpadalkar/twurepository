@@ -28,12 +28,9 @@ public class BibliotecaAppTest {
 
     private BibliotecaApp sut;
 
-    @Mock
-    private Runtime runtime;
-
     @Before
     public void setup(){
-        sut = new BibliotecaApp(console,library, runtime);
+        sut = new BibliotecaApp(console,library);
     }
 
     @Test
@@ -179,13 +176,6 @@ public class BibliotecaAppTest {
     public void shouldAskToChooseValidOptionOnChoiceOfInvalidOption(){
         sut.invalidMenuAction();
         verify(console).println("Choose Valid Option");
-    }
-
-    @Test
-    public void shouldExitOnQuitCommand(){
-        sut.quit();
-        verify(console).println("Thank you for using Biblioteca!!");
-        verify(runtime).exit(0);
     }
 
 
