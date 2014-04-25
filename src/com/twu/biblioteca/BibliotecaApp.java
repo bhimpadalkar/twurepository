@@ -15,12 +15,11 @@ public class BibliotecaApp {
 
     private Console console;
     private Library library;
-    private Runtime runtime;
+    private boolean quitRequested = false;
 
-    public BibliotecaApp(Console console, Library library, Runtime runtime) {
+    public BibliotecaApp(Console console, Library library) {
         this.console = console;
         this.library = library;
-        this.runtime = runtime;
     }
 
 
@@ -34,7 +33,7 @@ public class BibliotecaApp {
 
     public void start() {
         displayWelcomeMsg();
-        while(true){
+        while(!quitRequested){
             console.println("\nWhat you want to do? : ");
             displayMenus();
             Menu userSelectedMenu = getUserInput();
@@ -82,7 +81,7 @@ public class BibliotecaApp {
         String bookToBeReturned = console.readLine();
         if(bookToBeReturned.equals(""))
             return;
-        boolean isReturned = library.returnBookByName("a");
+        boolean isReturned = library.returnBookByName(bookToBeReturned);
         if(isReturned) console.println("Thank you for returning the book");
         else console.println("That is not a valid book to return");
     }
@@ -103,13 +102,13 @@ public class BibliotecaApp {
 
     public void quit() {
         console.println("Thank you for using Biblioteca!!");
-        runtime.exit(0);
+        quitRequested = true;
     }
 
     public static void main(String[] args) {
         Console console = new Console(System.out, new BufferedReader(new InputStreamReader(System.in)));
         Library library = initLibrary();
-        BibliotecaApp app = new BibliotecaApp(console,library, Runtime.getRuntime());
+        BibliotecaApp app = new BibliotecaApp(console,library);
         app.start();
     }
 

@@ -3,7 +3,7 @@ package com.twu.biblioteca.domain;
 import com.twu.biblioteca.menu.Displayable;
 
 public class Movie extends LibraryItem implements Displayable{
-    public static final Movie NULL_MOVIE = new Movie(-1,new String[]{"","","","0"}) {
+    public static final Movie NULL_MOVIE = new Movie(-1,new String[]{"","-1","","0"}) {
         @Override
         public boolean isAvailableForCheckout(){
             return false;
