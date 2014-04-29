@@ -5,6 +5,9 @@ import com.twu.biblioteca.domain.Library;
 import com.twu.biblioteca.domain.Movie;
 import com.twu.biblioteca.io.Console;
 import com.twu.biblioteca.menu.Menu;
+import com.twu.biblioteca.user.User;
+import com.twu.biblioteca.user.UserCredentials;
+import com.twu.biblioteca.user.UserManager;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -15,20 +18,13 @@ public class BibliotecaApp {
 
     private Console console;
     private Library library;
+    private UserManager userManager;
     private boolean quitRequested = false;
 
-    public BibliotecaApp(Console console, Library library) {
+    public BibliotecaApp(Console console, Library library, UserManager userManager) {
         this.console = console;
         this.library = library;
-    }
-
-
-    private static Library initLibrary() {
-        String [] booksList = new String[]{"Angels & Demons", "Digital Fortress", "Da Vinchi Code"};
-        List<String[]> moviesList = new ArrayList<String[]>();
-        moviesList.add(new String[]{"Frozen","2013","Chris Buck","8"});
-        moviesList.add(new String[]{"The Dark Knight","2008","Christopher Nolan","9"});
-        return new Library(booksList,moviesList);
+        this.userManager = userManager;
     }
 
     public void start() {
@@ -56,7 +52,13 @@ public class BibliotecaApp {
     }
 
     public void checkoutBook() {
+        UserCredentials userCredentials = getUserCredentials();
+        if(!userManager.isUserValid(userCredentials)){
+            console.println("Please enter valid credentials!!");
+            return;
+        }
         console.println("Which book you want to checkout?");
+
         String bookToBeCheckedOut = console.readLine();
         if(bookToBeCheckedOut.equals(""))
             return;
@@ -105,12 +107,6 @@ public class BibliotecaApp {
         quitRequested = true;
     }
 
-    public static void main(String[] args) {
-        Console console = new Console(System.out, new BufferedReader(new InputStreamReader(System.in)));
-        Library library = initLibrary();
-        BibliotecaApp app = new BibliotecaApp(console,library);
-        app.start();
-    }
 
     private Menu getUserInput() {
         Integer userInput = console.readInt();
@@ -126,5 +122,38 @@ public class BibliotecaApp {
 
     private void displayWelcomeMsg() {
         console.println("Welcome to Biblioteca !");
+    }
+
+    private UserCredentials getUserCredentials() {
+        console.println("Enter your Library Number : ");
+        String inputLibraryNumber = console.readLine();
+        console.println("Enter password : ");
+        String inputPassword = console.readLine();
+        return new UserCredentials(inputLibraryNumber,inputPassword);
+    }
+
+    public static void main(String[] args) {
+        Console console = new Console(System.out, new BufferedReader(new InputStreamReader(System.in)));
+        Library library = initLibrary();
+        UserManager userManager = new UserManager();
+        BibliotecaApp app = new BibliotecaApp(console,library,userManager);
+        app.start();
+    }
+
+    private static Library initLibrary() {
+        String [] booksList = new String[]{"Angels & Demons", "Digital Fortress", "Da Vinchi Code"};
+        List<String[]> moviesList = new ArrayList<String[]>();
+        moviesList.add(new String[]{"Frozen","2013","Chris Buck","8"});
+        moviesList.add(new String[]{"The Dark Knight","2008","Christopher Nolan","9"});
+        return new Library(booksList,moviesList);
+    }
+
+    public void showUserInformation() {
+        UserCredentials userCredentials = getUserCredentials();
+        User user = userManager.getUserFromCredentials(userCredentials);
+        if(userManager.isUserValid(userCredentials)){
+            console.println(user.getDisplayText());
+        }
+        else console.println("Please enter valid credentials!!");
     }
 }

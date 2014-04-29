@@ -3,16 +3,21 @@ package com.twu.biblioteca;
 import com.twu.biblioteca.domain.Book;
 import com.twu.biblioteca.domain.Library;
 import com.twu.biblioteca.io.Console;
+import com.twu.biblioteca.user.User;
+import com.twu.biblioteca.user.UserManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.*;
@@ -26,11 +31,14 @@ public class BibliotecaAppTest {
     @Mock
     private Library library;
 
+    @Mock
+    private UserManager userManager;
+
     private BibliotecaApp sut;
 
     @Before
     public void setup(){
-        sut = new BibliotecaApp(console,library);
+        sut = new BibliotecaApp(console,library,userManager);
     }
 
     @Test
@@ -178,5 +186,36 @@ public class BibliotecaAppTest {
         verify(console).println("Choose Valid Option");
     }
 
+    @Test
+    public void shouldAskForCredentialsBeforeCheckingOutBook(){
+        when(console.readLine()).thenReturn("xyz");
+        sut.checkoutBook();
+        verify(console).println("Enter your Library Number : ");
+        verify(console).println("Enter password : ");
+        verify(console).println("Which book you want to checkout?");
+    }
 
+    @Test
+    public void shouldNotAllowToCheckoutBookWhenCredentialsAreIncorrect(){
+        when(console.readLine()).thenReturn("111-1221");
+        sut.checkoutBook();
+        verify(console).println("Please enter valid credentials!!");
+    }
+
+    @Test
+    public void shouldAllowToCheckoutBookWhenCredentialsAreCorrect(){
+        when(console.readLine()).thenAnswer(new Answer<String>() {
+            int count = 0;
+
+            @Override
+            public String answer(InvocationOnMock invocation) throws Throwable {
+                if (count == 0) {
+                    count++;
+                    return "111-1234";
+                } else return "anand123";
+            }
+        });
+        sut.checkoutBook();
+        verify(console).println("Which book you want to checkout?");
+    }
 }

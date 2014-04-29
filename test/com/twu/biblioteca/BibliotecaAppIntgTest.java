@@ -2,6 +2,8 @@ package com.twu.biblioteca;
 
 import com.twu.biblioteca.domain.Library;
 import com.twu.biblioteca.io.Console;
+import com.twu.biblioteca.user.User;
+import com.twu.biblioteca.user.UserManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,6 +34,7 @@ public class BibliotecaAppIntgTest {
     private ByteArrayOutputStream outputStream;
     private Library library;
     private BufferedReader inputReader;
+    private UserManager userManager;
 
     @Before
     public void setup(){
@@ -40,7 +43,7 @@ public class BibliotecaAppIntgTest {
         outputPrintStream = new PrintStream(outputStream);
         inputReader = new BufferedReader(new StringReader("1\n7\n"));  //List Books action followed by Exit
         console = new Console(outputPrintStream, inputReader);
-        sut = new BibliotecaApp(console,library);
+        sut = new BibliotecaApp(console,library, userManager);
     }
     private static Library initLibrary() {
         String [] booksList = new String[]{"Angels & Demons", "Digital Fortress", "Da Vinchi Code"};

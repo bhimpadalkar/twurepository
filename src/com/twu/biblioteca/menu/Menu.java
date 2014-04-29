@@ -37,13 +37,18 @@ public enum Menu implements Displayable{
         }
     }),
     RETURN_MOVIE(6,"Return Movie", new MenuAction(){
-
         @Override
         public void performAction(BibliotecaApp app) {
             app.returnMovie();
         }
     }),
-    QUIT(7,"Quit", new MenuAction(){
+    SHOW_USER_INFORMATION(7,"Show User Information",new MenuAction(){
+        @Override
+        public void performAction(BibliotecaApp app) {
+        app.showUserInformation();
+        }
+    }),
+    QUIT(8,"Quit", new MenuAction(){
 
         @Override
         public void performAction(BibliotecaApp app) {
